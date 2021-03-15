@@ -14,7 +14,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    axios.get(`http://${BACKEND_URL}/api/todos`).then(res => {
+    axios.get(`http://${REACT_APP_BACKEND_URL}/api/todos`).then(res => {
       this.setState({
         todos: res.data.data
       });
@@ -28,13 +28,13 @@ class App extends Component {
           if (todo.completed) {
             axios
               .get(
-                `http://${BACKEND_URL}/api/todos/uncomplete/${id}`
+                `http://${REACT_APP_BACKEND_URL}/api/todos/uncomplete/${id}`
               )
               .then(res => (todo.completed = res.data.completed))
               .catch(err => console.log(err));
           } else {
             axios
-              .get(`http://${BACKEND_URL}/api/todos/complete/${id}`)
+              .get(`http://${REACT_APP_BACKEND_URL}/api/todos/complete/${id}`)
               .then(res => (todo.completed = res.data.completed))
               .catch(err => console.log(err));
           }
