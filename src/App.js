@@ -58,7 +58,7 @@ class App extends Component {
 
   addTodo = data => {
     axios
-      .post(`${BACKEND_URL}/api/todos", {
+      .post(`${BACKEND_URL}/api/todos`, {
         completed: false,
         ...data 
       })
