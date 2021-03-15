@@ -14,7 +14,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    axios.get("https://polytechbot.herokuapp.com/api/todos").then(res => {
+    axios.get(`http://${BACKEND_URL}/api/todos`).then(res => {
       this.setState({
         todos: res.data.data
       });
@@ -28,13 +28,13 @@ class App extends Component {
           if (todo.completed) {
             axios
               .get(
-                `https://polytechbot.herokuapp.com/api/todos/uncomplete/${id}`
+                `http://${BACKEND_URL}/api/todos/uncomplete/${id}`
               )
               .then(res => (todo.completed = res.data.completed))
               .catch(err => console.log(err));
           } else {
             axios
-              .get(`https://polytechbot.herokuapp.com/api/todos/complete/${id}`)
+              .get(`http://${BACKEND_URL}/api/todos/complete/${id}`)
               .then(res => (todo.completed = res.data.completed))
               .catch(err => console.log(err));
           }
@@ -45,7 +45,7 @@ class App extends Component {
   };
   delTodo = id => {
     axios
-      .delete(`https://polytechbot.herokuapp.com/api/todos/${id}`)
+      .delete(`${BACKEND_URL}/api/todos/${id}`)
       .then(res =>
         this.setState({
           todos: [...this.state.todos.filter(todo => todo._id !== id)]
@@ -58,7 +58,7 @@ class App extends Component {
 
   addTodo = data => {
     axios
-      .post("https://polytechbot.herokuapp.com/api/todos", {
+      .post(`${BACKEND_URL}/api/todos", {
         completed: false,
         ...data 
       })
