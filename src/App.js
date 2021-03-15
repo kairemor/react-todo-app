@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+require('dotenv').config()
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Todos from "./Components/Todos";
 import Header from "./Components/layout/Header";
@@ -45,7 +46,7 @@ class App extends Component {
   };
   delTodo = id => {
     axios
-      .delete(`${BACKEND_URL}/api/todos/${id}`)
+      .delete(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos/${id}`)
       .then(res =>
         this.setState({
           todos: [...this.state.todos.filter(todo => todo._id !== id)]
@@ -58,7 +59,7 @@ class App extends Component {
 
   addTodo = data => {
     axios
-      .post(`${BACKEND_URL}/api/todos", {
+      .post(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos", {
         completed: false,
         ...data 
       })
