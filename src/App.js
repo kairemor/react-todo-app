@@ -1,83 +1,87 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 require('dotenv').config()
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Todos from "./Components/Todos";
-import Header from "./Components/layout/Header";
-import About from "./Components/pages/About";
-import AddTodo from "./Components/AddTodo";
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Todos from './Components/Todos'
+import Header from './Components/layout/Header'
+import About from './Components/pages/About'
+import AddTodo from './Components/AddTodo'
 // import uuid from 'uuid';
-import axios from "axios";
-import "./App.css";
+import axios from 'axios'
+import './App.css'
 
 class App extends Component {
   state = {
-    todos: []
-  };
-
-  componentDidMount() {
-    axios.get(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos`).then(res => {
-      this.setState({
-        todos: res.data.data
-      });
-    });
+    todos: [],
   }
 
-  markComplete = id => {
+  componentDidMount() {
+    axios
+      .get(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos`)
+      .then((res) => {
+        this.setState({
+          todos: res.data.data,
+        })
+      })
+  }
+
+  markComplete = (id) => {
     this.setState({
-      todos: this.state.todos.map(todo => {
+      todos: this.state.todos.map((todo) => {
         if (todo._id === id) {
           if (todo.completed) {
             axios
               .get(
-                `http://${process.env.REACT_APP_BACKEND_URL}/api/todos/uncomplete/${id}`
+                `http://${process.env.REACT_APP_BACKEND_URL}/api/todos/uncomplete/${id}`,
               )
-              .then(res => (todo.completed = res.data.completed))
-              .catch(err => console.log(err));
+              .then((res) => (todo.completed = res.data.completed))
+              .catch((err) => console.log(err))
           } else {
             axios
-              .get(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos/complete/${id}`)
-              .then(res => (todo.completed = res.data.completed))
-              .catch(err => console.log(err));
+              .get(
+                `http://${process.env.REACT_APP_BACKEND_URL}/api/todos/complete/${id}`,
+              )
+              .then((res) => (todo.completed = res.data.completed))
+              .catch((err) => console.log(err))
           }
         }
-        return todo;
-      })
-    });
-  };
-  delTodo = id => {
+        return todo
+      }),
+    })
+  }
+  delTodo = (id) => {
     axios
       .delete(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos/${id}`)
-      .then(res =>
+      .then((res) =>
         this.setState({
-          todos: [...this.state.todos.filter(todo => todo._id !== id)]
-        })
-      );
+          todos: [...this.state.todos.filter((todo) => todo._id !== id)],
+        }),
+      )
     // this.state.todos.indexOf({id:id, title:'Learn react', completed:true})
     // this.state.todos.splice(this.state.todos.indexOf({id:id}))
     // this.setState({todos: [...this.state.todos.filter(todo => todo.id !== id)]})
-  };
+  }
 
-  addTodo = data => {
+  addTodo = (data) => {
     axios
-      .post(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos", {
+      .post(`http://${process.env.REACT_APP_BACKEND_URL}/api/todos`, {
         completed: false,
-        ...data 
+        ...data,
       })
-      .then(res =>
+      .then((res) =>
         this.setState({
-          todos: [...this.state.todos, res.data.data]
-        })
+          todos: [...this.state.todos, res.data.data],
+        }),
       )
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err))
     // const newTodo = {
     //   id:uuid.v4(),
     //   title,
     //   completed : false
     // }
     // this.setState({todos: [...this.state.todos, newTodo]})
-  };
+  }
   render() {
-    console.log(this.state.todos);
+    console.log(this.state.todos)
     return (
       <Router>
         <div className="App">
@@ -86,23 +90,23 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={props => (
+              render={(props) => (
                 <React.Fragment>
-                  <AddTodo addTodo={this.addTodo} />{" "}
+                  <AddTodo addTodo={this.addTodo} />{' '}
                   <Todos
                     todos={this.state.todos}
                     markComplete={this.markComplete}
                     delTodo={this.delTodo}
-                  />{" "}
+                  />{' '}
                 </React.Fragment>
               )}
-            />{" "}
-            <Route path="/about" component={About} />{" "}
-          </div>{" "}
-        </div>{" "}
+            />{' '}
+            <Route path="/about" component={About} />{' '}
+          </div>{' '}
+        </div>{' '}
       </Router>
-    );
+    )
   }
 }
 
-export default App;
+export default App
