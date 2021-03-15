@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-require('dotenv').config()
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Todos from './Components/Todos'
 import Header from './Components/layout/Header'
@@ -8,6 +7,7 @@ import AddTodo from './Components/AddTodo'
 // import uuid from 'uuid';
 import axios from 'axios'
 import './App.css'
+require('dotenv').config()
 
 class App extends Component {
   state = {
